@@ -2,6 +2,7 @@ build/
 *.pyc
 .ropeproject/
 .Python
+.python-version
 lib/
 bin/
 build/

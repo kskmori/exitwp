@@ -1,4 +1,4 @@
-html5lib==1.0b1
-beautifulsoup4==4.2.0
-PyYAML==3.10
-html2text==3.200.3
+html5lib==1.1
+beautifulsoup4==4.12.3
+PyYAML==6.0.1
+html2text==3.101
