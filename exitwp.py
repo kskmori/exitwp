@@ -122,8 +122,8 @@ def parse_wp_xml(file):
                 else:
                     tag = q
                 try:
-                    result = (i.find(q, ns) or i.find(tag) or i.find(ns[namespace] + tag)).text.strip()
-                    print(result.encode('utf-8'))
+                    result = i.find(ns[namespace] + tag).text.strip()
+                    #print(result.encode('utf-8'))
                 except AttributeError:
                     result = 'No Content Found'
                     if empty:
@@ -140,7 +140,7 @@ def parse_wp_xml(file):
             img_srcs = []
             if body is not None:
                 try:
-                    soup = BeautifulSoup(body, features="lxml")
+                    soup = BeautifulSoup(body, features="html.parser")
                     img_tags = soup.find_all('img')
                     for img in img_tags:
                         img_srcs.append(img['src'])
