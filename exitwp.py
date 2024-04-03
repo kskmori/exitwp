@@ -299,7 +299,8 @@ def write_jekyll(data, target_format):
             print('Wrong date in', i['title'])
         yaml_header = {
             'title': i['title'],
-            'link': i['link'],
+            #'link': i['link'],
+            'permalink': urlparse(re.sub(r'\?p=', 'archives/', i['link'])).path,
             'author': i['author'],
             'date': date,
             'slug': i['slug'],
