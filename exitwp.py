@@ -5,7 +5,7 @@ import os
 import re
 import sys
 import urllib.parse
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime, timedelta, tzinfo, timezone
 from glob import glob
 from urllib.request import urlretrieve
 from urllib.parse import urljoin, urlparse
@@ -150,11 +150,18 @@ def parse_wp_xml(file):
 
             excerpt = gi('excerpt:encoded', empty=True)
 
+            date_gmt = gi('wp:post_date_gmt')
+            try:
+                datetime.strptime(date_gmt, date_fmt)
+            except:
+                datetime_local = datetime.strptime(gi('wp:post_date'), date_fmt).astimezone()
+                date_gmt = datetime_local.astimezone(timezone.utc).strftime(date_fmt)
+
             export_item = {
                 'title': gi('title'),
                 'link': gi('link'),
                 'author': gi('dc:creator'),
-                'date': gi('wp:post_date_gmt'),
+                'date': date_gmt,
                 'slug': gi('wp:post_name'),
                 'status': gi('wp:status'),
                 'type': gi('wp:post_type'),
