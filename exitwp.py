@@ -37,6 +37,7 @@ item_type_filter = set(config['item_type_filter'])
 item_field_filter = config['item_field_filter']
 date_fmt = config['date_format']
 body_replace = config['body_replace']
+uid_wp_id_prefix = config['uid_wp_id_prefix']
 
 
 # Time definitions
@@ -225,6 +226,9 @@ def write_jekyll(data, target_format):
                     print('Wrong date in', item['title'])
                 uid.append(dt.strftime('%Y-%m-%d'))
                 uid.append('-')
+                if (uid_wp_id_prefix):
+                    uid.append(item['wp_id'])
+                    uid.append('-')
             s_title = item['slug']
             if s_title is None or s_title == '':
                 s_title = item['title']

@@ -40,3 +40,6 @@ body_replace: {
 #    '[python]': '{% codeblock lang:python %}',
 #    '[/python]': '{% endcodeblock %}',
 }
+
+# add wp_id prefix to the post filename
+uid_wp_id_prefix: True
