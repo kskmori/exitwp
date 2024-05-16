@@ -37,6 +37,7 @@ item_type_filter = set(config['item_type_filter'])
 item_field_filter = config['item_field_filter']
 date_fmt = config['date_format']
 body_replace = config['body_replace']
+attachment_url_format = config['attachment_url_format']
 uid_wp_id_prefix = config['uid_wp_id_prefix']
 
 
@@ -133,7 +134,7 @@ def parse_wp_xml(file):
                     result = str(result)
                 return result
 
-            body = gi('content:encoded')
+            body = gi('content:encoded', empty=True)
             for key in body_replace:
                 # body = body.replace(key, body_replace[key])
                 body = re.sub(key, body_replace[key], body)
@@ -174,6 +175,18 @@ def parse_wp_xml(file):
                 'excerpt': excerpt,
                 'img_srcs': img_srcs
             }
+            if export_item['type'] == 'attachment':
+                attachment_url = urlparse(gi('wp:attachment_url')).path
+                export_item['attachment_url'] = attachment_url
+                # embedding attachment_url to the body
+                #attachment_url_format = '### [{title}]({attachment_url})\n\n'
+                if attachment_url_format != '':
+                    body_add = attachment_url_format.format(
+                        title=export_item['title'],
+                        attachment_url=export_item['attachment_url'])
+                    for key in body_replace:
+                        body_add = re.sub(key, body_replace[key], body_add)
+                    export_item['body'] = body_add + export_item['body']
 
             export_items.append(export_item)
 
@@ -323,10 +336,20 @@ def write_jekyll(data, target_format):
         if i['status'] != u'publish':
             yaml_header['published'] = False
 
-        if i['type'] == 'post':
+        if i['type'] in item_type_filter:
+            pass
+        elif i['type'] == 'post':
             i['uid'] = get_item_uid(i, date_prefix=True)
             fn = get_item_path(i, dir='_posts')
             out = open_file(fn)
+            yaml_header['layout'] = 'post'
+        elif i['type'] == 'attachment':
+            i['uid'] = get_item_uid(i, date_prefix=True)
+            fn = get_item_path(i, dir='_drafts/attachments')
+            out = open_file(fn)
+            yaml_header['attachment_url'] = urlparse(i['attachment_url']).path
+            if i['status'] == u'inherit':
+                yaml_header.pop('published', None) # assume it's published
             yaml_header['layout'] = 'post'
         elif i['type'] == 'page':
             i['uid'] = get_item_uid(i)
@@ -343,8 +366,6 @@ def write_jekyll(data, target_format):
             fn = get_item_path(i, parentpath)
             out = open_file(fn)
             yaml_header['layout'] = 'page'
-        elif i['type'] in item_type_filter:
-            pass
         else:
             print('Unknown item type :: ' + i['type'])
 
