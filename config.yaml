@@ -42,7 +42,7 @@ body_replace: {
 #    '[/python]': '{% endcodeblock %}',
   'http://linux-ha.sourceforge.jp/': '/',
   'http[s]?://linux-ha.osdn.jp/': '/',
-  '/wp/wp-content/uploads/(.*?(?:\.png|\.jpg))': '/assets/images/wp-content/\1',
+  '/wp/wp-content/uploads/([^"]+(?:\.png|\.jpg))': '/assets/images/wp-content/\1',
   '/wp/wp-content/uploads/': '{{ site.lhajp_resources_url }}/wp-content/',
   # fix some links
   '/wp/\?p=(\d+)': '/wp/archives/\1',
