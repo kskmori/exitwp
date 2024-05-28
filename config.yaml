@@ -49,7 +49,7 @@ body_replace: {
   '(/wp/archives/\d+)/\d\b': '\1', # remove link to the specific page
   # canonicalize to abs. path for checking missing posts
   '"(archives/\d+\b)"': '"/wp/\1"',
-  '../\?attachment_id=': '/wp/?attachment_id=',
+  '\.\./\?attachment_id=': '/wp/?attachment_id=',
 }
 # embedding attachment_url into the body of the post
 #   setting ''(empty string) to disable embedding

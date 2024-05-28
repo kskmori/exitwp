@@ -179,7 +179,7 @@ def parse_wp_xml(file):
                 attachment_url = urlparse(gi('wp:attachment_url')).path
                 export_item['attachment_url'] = attachment_url
                 # embedding attachment_url to the body
-                #attachment_url_format = '### [{title}]({attachment_url})\n\n'
+                #attachment_url_format = '<h3><a href="{attachment_url}">{title}</a></h3>'
                 if attachment_url_format != '':
                     body_add = attachment_url_format.format(
                         title=export_item['title'],
