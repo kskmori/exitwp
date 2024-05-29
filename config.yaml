@@ -50,6 +50,40 @@ body_replace: {
   # canonicalize to abs. path for checking missing posts
   '"(archives/\d+\b)"': '"/wp/\1"',
   '\.\./\?attachment_id=': '/wp/?attachment_id=',
+  ## pass 2: attachment_subst.txt
+  '/wp/\?attachment_id=1273': '/wp/wp-content/uploads/eject.zip',
+  '/wp/\?attachment_id=371': '/wp/wp-content/uploads/logo_pacemaker_200x100.png',
+  '/wp/\?attachment_id=372': '/wp/wp-content/uploads/logo_pacemaker_300x150.png',
+  '/wp/\?attachment_id=388': '/wp/wp-content/uploads/banner_pecemaker_88x31_01.jpg',
+  '/wp/\?attachment_id=389': '/wp/wp-content/uploads/banner_pecemaker_236x60_011.jpg',
+  '/wp/\?attachment_id=390': '/wp/wp-content/uploads/banner_pecemaker_728x90_01.jpg',
+  '/wp/\?attachment_id=391': '/wp/wp-content/uploads/banner_pecemaker_1024x128_01.jpg',
+  '/wp/\?attachment_id=392': '/wp/wp-content/uploads/banner_pecemaker_88x31_02.jpg',
+  '/wp/\?attachment_id=393': '/wp/wp-content/uploads/banner_pecemaker_236x60_021.jpg',
+  '/wp/\?attachment_id=394': '/wp/wp-content/uploads/banner_pecemaker_728x90_02.jpg',
+  '/wp/\?attachment_id=395': '/wp/wp-content/uploads/banner_pecemaker_1024x128_02.jpg',
+  '/wp/\?attachment_id=396': '/wp/wp-content/uploads/banner_pecemaker_88x31_03.jpg',
+  '/wp/\?attachment_id=397': '/wp/wp-content/uploads/banner_pecemaker_236x60_031.jpg',
+  '/wp/\?attachment_id=398': '/wp/wp-content/uploads/banner_pecemaker_728x90_03.jpg',
+  '/wp/\?attachment_id=399': '/wp/wp-content/uploads/banner_pecemaker_1024x128_03.jpg',
+  '/wp/\?attachment_id=400': '/wp/wp-content/uploads/banner_pecemaker_88x31_04.jpg',
+  '/wp/\?attachment_id=401': '/wp/wp-content/uploads/banner_pecemaker_236x60_041.jpg',
+  '/wp/\?attachment_id=402': '/wp/wp-content/uploads/banner_pecemaker_728x90_04.jpg',
+  '/wp/\?attachment_id=403': '/wp/wp-content/uploads/banner_pecemaker_1024x128_04.jpg',
+  '/wp/\?attachment_id=605': '/wp/wp-content/uploads/521492b28866dce52ea21dc3732ca9cf.swf',
+  ## pass 2: missing_urls.txt - manually fixing
+  '/wp/dl/find': '/wp/find',
+  '/wp/dl/packages': '/wp/link/packages',
+  '/wp/dl/pminstall_cent5/hb3_or_corosync': '/wp/manual/pminstall_cent5/hb3_or_corosync',
+  '/wp/dl/pminstall_cent5/pm_simple_env': '/wp/manual/pminstall_cent5/pm_simple_env',
+  '/wp/dl/pm-crm-setting': '/wp/archives/4224', # unpublished: /wp/manual/pm-crm-setting
+  '/wp/dl/pminstall_cent5': '/wp/archives/4219', # unpublished: /wp/manual/pminstall_cent5
+  '/wp/manual/ocfリソースエージェント開発者ガイド': '/wp/archives/4328', # unpublished:
+  '/wp/archives/376[2-7]/(osc2013kyoto-qa0[2-7])': '/assets/images/wp-content/\1.png',
+  # pass 2: rewrite links again for pass2
+  #   leading '/?' is only for differenciate keys of pass1 and no meaning for matching
+  '/?/wp/wp-content/uploads/([^"]+(?:\.png|\.jpg))': '/assets/images/wp-content/\1',
+  '/?/wp/wp-content/uploads/': '{{ site.lhajp_resources_url }}/wp-content/',
 }
 # embedding attachment_url into the body of the post
 #   setting ''(empty string) to disable embedding
