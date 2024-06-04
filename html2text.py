@@ -610,9 +610,11 @@ class _html2text(HTMLParser.HTMLParser):
             if start:
                 self.startpre = 1
                 self.pre = 1
+                self.o("<pre>", 0, 1)
             else:
                 self.pre = 0
-            self.p()
+                self.o("</pre>", 0, 1)
+                self.p()
 
     def pbr(self):
         if self.p_p == 0: self.p_p = 1
@@ -649,9 +651,9 @@ class _html2text(HTMLParser.HTMLParser):
             bq = (">" * self.blockquote)
             if not (force and data and data[0] == ">") and self.blockquote: bq += " "
 
-            if self.pre:
-                bq += "    "
-                data = data.replace("\n", "\n"+bq)
+            #if self.pre:
+            #    bq += "    "
+            #    data = data.replace("\n", "\n"+bq)
 
             if self.start:
                 self.space = 0
