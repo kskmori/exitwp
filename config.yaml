@@ -84,6 +84,10 @@ body_replace: {
   #   leading '/?' is only for differenciate keys of pass1 and no meaning for matching
   '/?/wp/wp-content/uploads/([^"]+(?:\.png|\.jpg))': '/assets/images/wp-content/\1',
   '/?/wp/wp-content/uploads/': '{{ site.lhajp_resources_url }}/wp-content/',
+  # fix Markdown conversion
+  '<strong>\s+': '<strong>',
+  '\s+</strong>': '</strong>',
+  '<strong>\s*</strong>': '',
 }
 # embedding attachment_url into the body of the post
 #   setting ''(empty string) to disable embedding
