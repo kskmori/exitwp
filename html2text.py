@@ -415,10 +415,7 @@ class _html2text(HTMLParser.HTMLParser):
 
         if self.pre and not tag == "pre":
             if start:
-                attrs_string = ""
-                for k, v in attrs.items():
-                    attrs_string += " " + k + "=\"" + v + "\""
-                self.o("<"+tag+attrs_string+">")
+                self.o("<"+tag+self.attrs_string(attrs)+">")
             else:
                 self.o("</"+tag+">")
             return None
@@ -610,11 +607,18 @@ class _html2text(HTMLParser.HTMLParser):
             if start:
                 self.startpre = 1
                 self.pre = 1
-                self.o("<pre>", 0, 1)
+                self.o("<pre>")
+                #self.o("<pre" + self.attrs_string(attrs) + ">")
             else:
                 self.pre = 0
-                self.o("</pre>", 0, 1)
+                self.o("</pre>")
                 self.p()
+
+    def attrs_string(self, attrs):
+        attrs_string = ""
+        for k, v in attrs.items():
+            attrs_string += " " + k + "=\"" + v + "\""
+        return attrs_string
 
     def pbr(self):
         if self.p_p == 0: self.p_p = 1
