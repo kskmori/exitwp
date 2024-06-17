@@ -261,6 +261,7 @@ class _html2text(HTMLParser.HTMLParser):
         self.blockquote = 0
         self.pre = 0
         self.startpre = 0
+        self.table = 0
         self.code = False
         self.br_toggle = ''
         self.lastWasNL = 0
@@ -413,11 +414,13 @@ class _html2text(HTMLParser.HTMLParser):
         else:
             attrs = dict(attrs)
 
-        if self.pre and not tag == "pre":
+        if ((self.pre and not tag == "pre") or
+            (self.table and not tag == "table") or
+            (self.blockquote > 0 and not tag == "blockquote")):
             if start:
-                self.o("<"+tag+self.attrs_string(attrs)+">")
+                self.o("<" + tag + self.attrs_string(attrs) + ">")
             else:
-                self.o("</"+tag+">")
+                self.o("</" + tag + ">")
             return None
 
         if options.google_doc:
@@ -474,7 +477,7 @@ class _html2text(HTMLParser.HTMLParser):
 
         if tag == "blockquote":
             if start:
-                self.p(); self.o('<blockquote>', 0, 1); self.start = 1
+                self.p(); self.o('<blockquote' + self.attrs_string(attrs) + '>', 0, 1); self.start = 1
                 # self.p(); self.o('> ', 0, 1); self.start = 1
                 self.blockquote += 1
             else:
@@ -584,6 +587,8 @@ class _html2text(HTMLParser.HTMLParser):
                     nest_count = google_nest_count(tag_style)
                 else:
                     nest_count = len(self.list)
+                # add 3 spaces per nesting for 3 levels or more
+                #self.o("  " + "   " * (nest_count-1)) #TODO: line up <ol><li>s > 9 correctly.
                 self.o("  " * nest_count) #TODO: line up <ol><li>s > 9 correctly.
                 if li['name'] == "ul": self.o(options.ul_item_mark + " ")
                 elif li['name'] == "ol":
@@ -591,17 +596,14 @@ class _html2text(HTMLParser.HTMLParser):
                     self.o(str(li['num'])+". ")
                 self.start = 1
 
-        # if tag in ["table", "tr"] and start: self.p()
-        if tag == 'td': self.pbr()
-        if tag in ["table","tbody","td","tr"]:
-            temp = ""
-            if attrs:
-                for (k,v) in  attrs.items():
-                    temp += k+"="+"\""+v+"\""+" "
+        if tag == 'table':
             if start:
-                self.o("<"+tag+" "+temp+">", 0, 1)
+                self.table = 1
+                self.pbr()
+                self.o("<table" + self.attrs_string(attrs) + ">")
             else:
-                self.o("</"+tag+">",0,1)
+                self.table = 0
+                self.o("</table>")
 
         if tag == "pre":
             if start:
