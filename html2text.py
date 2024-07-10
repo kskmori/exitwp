@@ -238,6 +238,23 @@ def list_numbering_start(attrs):
     else:
         return 0
 
+def check_valid_tags(tag, start):
+    """check valid HTML tags"""
+    # not the complete list - only used tags are listed
+    validtags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                 'head', 'style', 'script', 'body',
+                 'a', 'img', 'p', 'div', 'span', 'br', 'hr',
+                 'pre', 'blockquote', 'code', 'abbr', 'fieldset',
+                 'table', 'tbody', 'tr', 'th', 'td',
+                 'font', 'strong',  'del', 'strike', 'small', 'center',
+                 'i', 'u', 'b', 's', 'em', 'tt',
+                 'dl', 'dt', 'dd', 'ol', 'ul', 'li',
+                 'address', 'iframe', 'object', 'embed', 'param']
+    assert tag in validtags, "Invalid %s tag = %s" % ("start" if start else "end", tag)
+    if not tag in validtags:
+        import warnings
+        warnings.warn("Invalid %s tag = %s" % ("start" if start else "end", tag), stacklevel=2)
+
 class _html2text(HTMLParser.HTMLParser):
     def __init__(self, out=None, baseurl=''):
         HTMLParser.HTMLParser.__init__(self)
@@ -409,6 +426,7 @@ class _html2text(HTMLParser.HTMLParser):
                 self.quiet -= 1
 
     def handle_tag(self, tag, attrs, start):
+        check_valid_tags(tag, start)
         if attrs is None:
             attrs = {}
         else:
@@ -661,6 +679,11 @@ class _html2text(HTMLParser.HTMLParser):
                     self.space = 1
                     data = data[1:]
             if not data and not force: return
+
+            #if puredata and (self.pre or self.table or self.blockquote):
+            if puredata:
+                data = data.replace('<', '&lt;')
+                data = data.replace('>', '&gt;')
 
             if self.startpre:
                 #self.out(" :") #TODO: not output when already one there

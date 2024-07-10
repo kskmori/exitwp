@@ -403,8 +403,9 @@ def write_jekyll(data, target_format):
             out.write('---\n\n')
             try:
                 out.write(html2fmt(i['body'], target_format))
-            except:
-                print('\n Parse error on: ' + i['title'])
+            except Exception as e:
+                print('\n Parse error on: %s: %s' % (i['wp_id'], i['title']))
+                print(e)
 
             out.close()
     print('\n')
