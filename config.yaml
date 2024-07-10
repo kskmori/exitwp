@@ -88,7 +88,7 @@ body_replace: {
   '<strong>\s+': '<strong>',
   '\s+</strong>': '</strong>',
   '<strong>\s*</strong>': '',
-  '<fieldset>': '<pre>',
+  '<fieldset([^>]*)>': '<pre\1>',
   '</fieldset>': '</pre>',
 }
 # embedding attachment_url into the body of the post
