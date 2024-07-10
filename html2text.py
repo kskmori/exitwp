@@ -616,10 +616,22 @@ class _html2text(HTMLParser.HTMLParser):
                 self.o("</pre>")
                 self.p()
 
+        if tag in ["iframe", "object"]:
+            if start:
+                self.pbr()
+                self.o("<" + tag + self.attrs_string(attrs) + ">")
+            else:
+                self.o("</" + tag + ">")
+        if tag in ["param", "embed"]:
+            if start:
+                self.o("<" + tag + self.attrs_string(attrs) + " />")
+
     def attrs_string(self, attrs):
         attrs_string = ""
         for k, v in attrs.items():
-            attrs_string += " " + k + "=\"" + v + "\""
+            attrs_string += " " + k
+            if v:
+                attrs_string += "=\"" + v + "\""
         return attrs_string
 
     def pbr(self):
