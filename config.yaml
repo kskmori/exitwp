@@ -91,12 +91,12 @@ body_replace: {
   '<fieldset([^>]*)>': '<pre\1>',
   '</fieldset>': '</pre>',
   # avoid to be handled as tags in HTMLParser
-  '<(rsc|param|value)>': '&amp;lt;\1&amp;gt;', # 3419
-  '<(domain|desturi|migrateuri|dname|number|string)>': '&amp;lt;\1&amp;gt;', # 3227
-  '<((?:attribute|data|text)[^>]*)>': '&amp;lt;\1&amp;gt;', # 2994
-  '</(attribute)>': '&amp;lt;/\1&amp;gt;', # 2994
-  '<((?:xml|foo|hoge|stdio.h)[^>]*)>': '&amp;lt;\1&amp;gt;', # 175
-  '</(xml|foo|hoge)>': '&amp;lt;/\1&amp;gt;', # 175
+  '<(rsc|param|value)>': '&lt;\1&gt;', # 3419
+  '<(domain|desturi|migrateuri|dname|number|string)>': '&lt;\1&gt;', # 3227
+  '<((?:attribute|data|text)[^>]*)>': '&lt;\1&gt;', # 2994
+  '</(attribute)>': '&lt;/\1&gt;', # 2994
+  '<((?:xml|foo|hoge|stdio.h)[^>]*)>': '&lt;\1&gt;', # 175
+  '</(xml|foo|hoge)>': '&lt;/\1&gt;', # 175
   # fix typo's before conversion so that html2text.py can detect invalid tags
   '<block>': '', # 3357
   '<storng>': '<strong>', # 3868
