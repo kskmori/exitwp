@@ -631,8 +631,7 @@ class _html2text(HTMLParser.HTMLParser):
             if start:
                 self.startpre = 1
                 self.pre = 1
-                self.o("<pre>")
-                #self.o("<pre" + self.attrs_string(attrs) + ">")
+                self.o("<pre" + self.attrs_string(attrs) + ">")
             else:
                 self.pre = 0
                 self.o("</pre>")

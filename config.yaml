@@ -100,6 +100,8 @@ body_replace: {
   # fix typo's before conversion so that html2text.py can detect invalid tags
   '<block>': '', # 3357
   '<storng>': '<strong>', # 3868
+  # <code> coordinate background-color to the parent <pre>
+  '<code>': '<code style="background-color: inherit">',
 }
 # embedding attachment_url into the body of the post
 #   setting ''(empty string) to disable embedding
