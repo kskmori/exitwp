@@ -278,6 +278,7 @@ class _html2text(HTMLParser.HTMLParser):
         self.blockquote = 0
         self.pre = 0
         self.startpre = 0
+        self.pre_in_blockquote = 0
         self.table = 0
         self.code = False
         self.br_toggle = ''
@@ -439,6 +440,8 @@ class _html2text(HTMLParser.HTMLParser):
                 self.o("<" + tag + self.attrs_string(attrs) + ">")
             else:
                 self.o("</" + tag + ">")
+            if tag == "pre":
+                self.pre_in_blockquote += +1 if start else -1
             return None
 
         if options.google_doc:
@@ -498,6 +501,7 @@ class _html2text(HTMLParser.HTMLParser):
                 self.p(); self.o('<blockquote' + self.attrs_string(attrs) + '>', 0, 1); self.start = 1
                 # self.p(); self.o('> ', 0, 1); self.start = 1
                 self.blockquote += 1
+                self.pre_in_blockquote = 0
             else:
                 self.o('</blockquote>', 0, 1)
                 self.blockquote -= 1
@@ -695,6 +699,9 @@ class _html2text(HTMLParser.HTMLParser):
             #if self.pre:
             #    bq += "    "
             #    data = data.replace("\n", "\n"+bq)
+
+            if self.blockquote and not self.pre_in_blockquote and puredata:
+                data = data[0] + data[1:].replace("\n", "<br>\n")
 
             if self.start:
                 self.space = 0
