@@ -102,6 +102,18 @@ body_replace: {
   '<storng>': '<strong>', # 3868
   # <code> coordinate background-color to the parent <pre>
   '<code>': '<code style="background-color: inherit">',
+  # fix unbalanced tags for the specific articles
+  '\n  </ul>\n</ul>': '\n</ul>', # 3442
+  '     <ul>\n</ul>': '     </ul>\n</ul>', # 3419,3429,3451,3534
+  '<ul>\n</blockquote>': '</ul>\n</blockquote>', # 3429
+  '</blockquote>\n\n参考情報リンク一覧': '</blockquote>\n<blockquote style=background-color:white;border-color:white;color:black;>\n参考情報リンク一覧', # 3548
+  '</blockquote>\n参考情報リンク一覧\n((?ms:<ul>\n.*\n</ul>\n))</br>': '</blockquote>\n<blockquote style=background-color:white;border-color:white;color:black;>\n参考情報リンク一覧\n\1</blockquote><br>', # 3482
+  '\n\t</dd>\n\t</td>\n': '\n\t</dd>\n\t</dl>\n\t</td>\n', # 3855
+  '</br>': '<br>', # 3855 and others
+  '<br />': '<br>', # 1809
+  '</span>&nbsp;</p>\n<p><span ': '</span><br>\n<span ', # 1809
+  '</span></p>\n<p><span ': '</span><br>\n<span ', # 1809 (1657 also affected but ignore)
+  'aliceblue;">location rsc_location-1': 'aliceblue;"><code style="background-color: inherit">location rsc_location-1', # 3868
 }
 # embedding attachment_url into the body of the post
 #   setting ''(empty string) to disable embedding
