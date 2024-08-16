@@ -44,6 +44,7 @@ body_replace: {
   'http[s]?://linux-ha.osdn.jp/': '/',
   '/wp/wp-content/uploads/([^"]+(?:\.png|\.jpg))': '/assets/images/wp-content/\1',
   '/wp/wp-content/uploads/': '{{ site.lhajp_resources_url }}/wp-content/',
+  'http://sourceforge.jp/projects/linux-ha/doc.*?/ja/\d/([^"]+)': '{{ site.lhajp_resources_url }}/sf-docs/\1',
   # fix some links
   '/wp/\?p=(\d+)': '/wp/archives/\1',
   '(/wp/archives/\d+)/\d\b': '\1', # remove link to the specific page
